@@ -8,7 +8,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
 import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
 
 
 public class ShoppingCartTest {
@@ -75,7 +74,7 @@ public class ShoppingCartTest {
         assertArrayEquals(expecteds, actuals);
     }
 
-        @Test
+    @Test
     public void doesntExplodeOnMysteryItem() {
         ListItemStore itemStore =  new ListItemStore();
         Pricer pricer = new Pricer();
@@ -93,6 +92,49 @@ public class ShoppingCartTest {
         String[] expecteds = new String[] {"crisps", "2", "€0.00", "Total", "Price:", "€0.00"};
         assertArrayEquals(expecteds, actuals);
     }
+
+    @Test
+    public void getTotalPrice() {
+        ListItemStore itemStore =  new ListItemStore();
+        Pricer pricer = new Pricer();
+        RegularReceiptFormat regularReceiptFormat = new RegularReceiptFormat();
+        ShoppingCart sc = new ShoppingCart(itemStore, pricer, regularReceiptFormat);
+
+        sc.addItem("apple", 2);
+        sc.addItem("banana", 2);
+
+        final ByteArrayOutputStream myOut = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(myOut));
+
+        sc.printReceipt();
+
+        String[] actuals = myOut.toString().split("\\s-\\s|\\s+");
+        String[] expecteds = new String[] {"apple", "2", "€2.00", "banana", "2", "€4.00",  "Total", "Price:", "€6.00"};
+        assertArrayEquals(expecteds, actuals);
+    }
+
+    @Test
+    public void printPriceFirst() {
+        ListItemStore itemStore =  new ListItemStore();
+        Pricer pricer = new Pricer();
+        //Key to the test is to create PriceFrontReceiptFormat
+        PriceFrontReceiptFormat priceFrontReceiptFormat= new PriceFrontReceiptFormat();
+        ShoppingCart sc = new ShoppingCart(itemStore, pricer, priceFrontReceiptFormat);
+
+        sc.addItem("apple", 2);
+        sc.addItem("banana", 2);
+
+        final ByteArrayOutputStream myOut = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(myOut));
+
+        sc.printReceipt();
+
+        //Regex to cutout hyphen and empty spaces
+        String[] actuals = myOut.toString().split("\\s-\\s|\\s+");
+        String[] expecteds = new String[] {"€2.00", "apple", "2", "€4.00", "banana", "2", "Total", "Price:", "€6.00"};
+        assertArrayEquals(expecteds, actuals);
+    }
+    
 }
 
 

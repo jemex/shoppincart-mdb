@@ -17,8 +17,8 @@ public class RegularReceiptFormat implements IReceiptFormat {
             }
             itemList.add("Total Price: " + String.format("€%.2f", this.totalPrice(items)));
             // Will join our list and use newline as seperator
-            String foo = String.join("\r\n", itemList); 
-            return foo;
+            String receiptString = String.join("\r\n", itemList); 
+            return receiptString;
         } catch (Exception e) {
             e.printStackTrace();
             return null;

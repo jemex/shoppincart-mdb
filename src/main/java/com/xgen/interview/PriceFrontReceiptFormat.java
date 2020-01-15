@@ -1,5 +1,6 @@
 package com.xgen.interview;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -10,12 +11,13 @@ public class PriceFrontReceiptFormat implements IReceiptFormat {
     @Override
     public String getReceipt(List<Item> items) {
         try {
-            String receipt = "";
+            List<String> itemList = new ArrayList<String>();
             for (Item item : items) {
-                receipt.concat(String.format("€%.2f", item.getPrice()) + " - " + item.getItemType() + " - " + item.getNumber());
+                itemList.add(String.format("€%.2f", item.getPrice()) + " - " + item.getItemType() + " - " + item.getNumber());
             }
-            receipt.concat("Total Price: " + "€" + String.format("€%.2f", this.totalPrice(items)));
-            return receipt;
+            itemList.add("Total Price: " + String.format("€%.2f", this.totalPrice(items)));
+            String receiptString = String.join("\r\n", itemList);
+            return receiptString;
         } catch (Exception e) {
             e.printStackTrace();
             return null;
