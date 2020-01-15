@@ -10,11 +10,11 @@ public class PriceFrontReceiptFormat implements IReceiptFormat {
     @Override
     public String getReceipt(List<Item> items) {
         try {
-            String receipt = "Item - Number - Price" + System.lineSeparator();
+            String receipt = "";
             for (Item item : items) {
-                receipt.concat(item.getItemType() + '-' + item.getNumber() + '-' + item.getPrice().toString() + System.lineSeparator());
+                receipt.concat(String.format("€%.2f", item.getPrice()) + " - " + item.getItemType() + " - " + item.getNumber());
             }
-            receipt.concat("Total Price: " + this.totalPrice(items).toString());
+            receipt.concat("Total Price: " + "€" + String.format("€%.2f", this.totalPrice(items)));
             return receipt;
         } catch (Exception e) {
             e.printStackTrace();

@@ -7,6 +7,7 @@ import org.junit.Test;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 
@@ -14,20 +15,34 @@ public class ShoppingCartTest {
 
     @Test
     public void canAddAnItem() {
-        ShoppingCart sc = new ShoppingCart(new Pricer());
-
-        sc.addItem("apple", 1);
-
-        final ByteArrayOutputStream myOut = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(myOut));
-
-        sc.printReceipt();
-        assertEquals(String.format("apple - 1 - €1.00%n"), myOut.toString());
+        try {
+            ListItemStore itemStore =  new ListItemStore();
+            Pricer pricer = new Pricer();
+            RegularReceiptFormat regularReceiptFormat = new RegularReceiptFormat();
+            ShoppingCart sc = new ShoppingCart(itemStore, pricer, regularReceiptFormat);
+    
+            sc.addItem("apple", 1);
+    
+    
+            final ByteArrayOutputStream myOut = new ByteArrayOutputStream();
+            System.setOut(new PrintStream(myOut));
+    
+            sc.printReceipt();
+            String[] actuals = myOut.toString().split("\\s-\\s|\\s+");
+            System.out.println(actuals);
+            String[] expecteds = new String[] {"apple", "1", "€1.00", "Total", "Price:", "€1.00"};
+            assertArrayEquals(expecteds, actuals);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
     public void canAddMoreThanOneItem() {
-        ShoppingCart sc = new ShoppingCart(new Pricer());
+        ListItemStore itemStore =  new ListItemStore();
+        Pricer pricer = new Pricer();
+        RegularReceiptFormat regularReceiptFormat = new RegularReceiptFormat();
+        ShoppingCart sc = new ShoppingCart(itemStore, pricer, regularReceiptFormat);
 
         sc.addItem("apple", 2);
 
@@ -35,12 +50,17 @@ public class ShoppingCartTest {
         System.setOut(new PrintStream(myOut));
 
         sc.printReceipt();
-        assertEquals(String.format("apple - 2 - €2.00%n"), myOut.toString());
+        String[] actuals = myOut.toString().split("\\s-\\s|\\s+");
+        String[] expecteds = new String[] {"apple", "2", "€2.00", "Total", "Price:", "€2.00"};
+        assertArrayEquals(expecteds, actuals);
     }
 
     @Test
     public void canAddDifferentItems() {
-        ShoppingCart sc = new ShoppingCart(new Pricer());
+        ListItemStore itemStore =  new ListItemStore();
+        Pricer pricer = new Pricer();
+        RegularReceiptFormat regularReceiptFormat = new RegularReceiptFormat();
+        ShoppingCart sc = new ShoppingCart(itemStore, pricer, regularReceiptFormat);
 
         sc.addItem("apple", 2);
         sc.addItem("banana", 1);
@@ -50,18 +70,17 @@ public class ShoppingCartTest {
 
         sc.printReceipt();
 
-        String result = myOut.toString();
-
-        if (result.startsWith("apple")) {
-            assertEquals(String.format("apple - 2 - €2.00%nbanana - 1 - €2.00%n"), result);
-        } else {
-            assertEquals(String.format("banana - 1 - €2.00%napple - 2 - €2.00%n"), result);
-        }
+        String[] actuals = myOut.toString().split("\\s-\\s|\\s+");
+        String[] expecteds = new String[] {"apple", "2", "€2.00", "banana", "1", "€2.00",  "Total", "Price:", "€4.00"};
+        assertArrayEquals(expecteds, actuals);
     }
 
         @Test
     public void doesntExplodeOnMysteryItem() {
-        ShoppingCart sc = new ShoppingCart(new Pricer());
+        ListItemStore itemStore =  new ListItemStore();
+        Pricer pricer = new Pricer();
+        RegularReceiptFormat regularReceiptFormat = new RegularReceiptFormat();
+        ShoppingCart sc = new ShoppingCart(itemStore, pricer, regularReceiptFormat);
 
         sc.addItem("crisps", 2);
 
@@ -69,7 +88,10 @@ public class ShoppingCartTest {
         System.setOut(new PrintStream(myOut));
 
         sc.printReceipt();
-        assertEquals(String.format("crisps - 2 - €0.00%n"), myOut.toString());
+
+        String[] actuals = myOut.toString().split("\\s-\\s|\\s+");
+        String[] expecteds = new String[] {"crisps", "2", "€0.00", "Total", "Price:", "€0.00"};
+        assertArrayEquals(expecteds, actuals);
     }
 }
 

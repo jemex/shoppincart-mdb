@@ -1,5 +1,6 @@
 package com.xgen.interview;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -10,12 +11,14 @@ public class RegularReceiptFormat implements IReceiptFormat {
     @Override
     public String getReceipt(List<Item> items) {
         try {
-            String receipt = "Item - Number - Price" + System.lineSeparator();
+            List<String> itemList = new ArrayList<String>();
             for (Item item : items) {
-                receipt.concat(item.getPrice().toString() + " - " + item.getItemType() + " - " + item.getNumber() + System.lineSeparator());
+                itemList.add(item.getItemType() + " - " + item.getNumber() + " - " + String.format("€%.2f", item.getPrice()));
             }
-            receipt.concat("Total Price: " + this.totalPrice(items).toString());
-            return receipt;
+            itemList.add("Total Price: " + String.format("€%.2f", this.totalPrice(items)));
+            // Will join our list and use newline as seperator
+            String foo = String.join("\r\n", itemList); 
+            return foo;
         } catch (Exception e) {
             e.printStackTrace();
             return null;

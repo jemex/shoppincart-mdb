@@ -17,6 +17,7 @@ public class ListItemStore implements IItemStore {
             Optional<Item> optionalItem = store.stream().filter(i -> i.getItemType().equals(item.getItemType())).findFirst();
             if(!optionalItem.isPresent()) {
                 store.add(item);
+                System.out.println("Added Item");
             } else {
                 Item existing = optionalItem.get();
                 existing.setNumber(existing.getNumber() + item.getNumber());
