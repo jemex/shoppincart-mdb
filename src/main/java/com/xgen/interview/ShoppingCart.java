@@ -1,6 +1,6 @@
 package com.xgen.interview;
 
-import java.lang.reflect.Array;
+import java.sql.Timestamp;
 import java.util.*;
 
 
@@ -9,33 +9,30 @@ import java.util.*;
  * Please write a replacement
  */
 public class ShoppingCart implements IShoppingCart {
-    HashMap<String, Integer> contents = new HashMap<>();
+    IItemStore itemStore;
     Pricer pricer;
-    
+    IReceiptFormat receiptFormat;
 
-    public ShoppingCart(Pricer pricer) {
+    public ShoppingCart(IItemStore itemStore, Pricer pricer, IReceiptFormat receiptFormat) {
+        this.itemStore = itemStore;
         this.pricer = pricer;
+        this.receiptFormat = receiptFormat;
     }
 
     public void addItem(String itemType, int number) {
-        if (!contents.containsKey(itemType)) {
-            contents.put(itemType, number);
-        } else {
-            int existing = contents.get(itemType);
-            contents.put(itemType, existing + number);
+        try {
+            String id = UUID.randomUUID().toString();
+            //Create Timestamp
+            Timestamp timeStamp = new Timestamp(System.currentTimeMillis());
+            Item newItem = new Item(id, itemType, number, timeStamp, pricer);
+            itemStore.addItem(newItem);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
     }
 
     public void printReceipt() {
-        Object[] keys = contents.keySet().toArray();
-
-        for (int i = 0; i < Array.getLength(keys) ; i++) {
-            Integer price = pricer.getPrice((String)keys[i]) * contents.get(keys[i]);
-            Float priceFloat = Float.valueOf(Float.valueOf(price) / 100);
-            String priceString = String.format("€%.2f", priceFloat);
-
-            // Make this modular
-            System.out.println(keys[i] + " - " + contents.get(keys[i]) + " - " + priceString);
-        }
+        System.out.println(receiptFormat.getReceipt(itemStore.getAll()));
     }
 }

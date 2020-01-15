@@ -16,13 +16,13 @@
 
 ### Total Price
 
-- getTotal function in our IItemStore Interface
+- getTotal function in our IReceiptFormat Interface
 - Returns integer as total price
 - Use in getReceipt function
 
 ### Print items in scanned order
 
-- Create a QueueItemStore class
+- 
 - Rewrite addItem and printReceipt
 - Print by taking item one by one out of Queue
 
