@@ -16,13 +16,13 @@
 
 ### Total Price
 
-- Make total price function that takes items Queue as input
+- getTotal function in our IItemStore Interface
 - Returns integer as total price
-- Use in printReceipt function
+- Use in getReceipt function
 
 ### Print items in scanned order
 
-- Rewrite HashMap to a Queue Data Structure with Item Object as DataType
+- Create a QueueItemStore class
 - Rewrite addItem and printReceipt
 - Print by taking item one by one out of Queue
 
@@ -32,16 +32,12 @@
 
 ### Print receipt at front
 
-- Make Item class and ReceiptFormat class, Item class takes ReceiptFormat class in constructor and Itemtype and also Itemnumber
-- For each property we will have getters and setters which opens the opportunity to edit the Item
-- We will have a printItem function in which the format determines the output, also forces to rewrite the printReceipt function to replace the sysout statement
-- Format is property in Shoppingcart -> Constructor
-- This indicates that the format has to be determined before the receipt is printed. (Maybe create format when creating new item ? Discussion)
-- Function addItem will be rewritten to Instantiation of Item, by passing the properties and adding to our Queue
+- Create IReceipFormat Interface and create one RegularReceiptFormat class and one PrintFrontFormat class
+- Both will implement IReceiptFormat which will have a getReceipt function
+- Our getReceipt function will have their respected implementation of how we want our receipt to be formatted
 
 ### Improvements
 
-- Since we have Item class we can add edit and delete functionality for items
-- Add receipt history and store in mongodb
-- Make history class with get function to print all receipts by requesting our mongodb database
-- Receipt History can be largely extended with many features
+- Since we have ItemStore interface we can add edit and delete functionality for items
+- Add IReceiptStore interface with ReceiptStore and connect to a mongo database
+- Make receiptstore with get and add function by requesting the db

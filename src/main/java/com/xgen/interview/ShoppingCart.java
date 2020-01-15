@@ -11,6 +11,7 @@ import java.util.*;
 public class ShoppingCart implements IShoppingCart {
     HashMap<String, Integer> contents = new HashMap<>();
     Pricer pricer;
+    
 
     public ShoppingCart(Pricer pricer) {
         this.pricer = pricer;
