@@ -12,11 +12,13 @@ public class ShoppingCart implements IShoppingCart {
     IItemStore itemStore;
     Pricer pricer;
     IReceiptFormat receiptFormat;
+    IReceiptStore receiptStore;
 
-    public ShoppingCart(IItemStore itemStore, Pricer pricer, IReceiptFormat receiptFormat) {
+    public ShoppingCart(IItemStore itemStore, Pricer pricer, IReceiptFormat receiptFormat, IReceiptStore receiptStore ) {
         this.itemStore = itemStore;
         this.pricer = pricer;
         this.receiptFormat = receiptFormat;
+        this.receiptStore = receiptStore;
     }
 
     public void addItem(String itemType, int number) {
@@ -34,5 +36,6 @@ public class ShoppingCart implements IShoppingCart {
 
     public void printReceipt() {
         System.out.println(receiptFormat.getReceipt(itemStore.getAll()));
+        receiptStore.addReceipt(itemStore.getAll());
     }
 }

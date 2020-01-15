@@ -18,7 +18,8 @@ public class ShoppingCartTest {
             ListItemStore itemStore =  new ListItemStore();
             Pricer pricer = new Pricer();
             RegularReceiptFormat regularReceiptFormat = new RegularReceiptFormat();
-            ShoppingCart sc = new ShoppingCart(itemStore, pricer, regularReceiptFormat);
+            MongoReceiptStore mongoReceiptStore = new MongoReceiptStore();
+        ShoppingCart sc = new ShoppingCart(itemStore, pricer, regularReceiptFormat, mongoReceiptStore);
     
             sc.addItem("apple", 1);
     
@@ -41,7 +42,8 @@ public class ShoppingCartTest {
         ListItemStore itemStore =  new ListItemStore();
         Pricer pricer = new Pricer();
         RegularReceiptFormat regularReceiptFormat = new RegularReceiptFormat();
-        ShoppingCart sc = new ShoppingCart(itemStore, pricer, regularReceiptFormat);
+        MongoReceiptStore mongoReceiptStore = new MongoReceiptStore();
+        ShoppingCart sc = new ShoppingCart(itemStore, pricer, regularReceiptFormat, mongoReceiptStore);
 
         sc.addItem("apple", 2);
 
@@ -59,7 +61,8 @@ public class ShoppingCartTest {
         ListItemStore itemStore =  new ListItemStore();
         Pricer pricer = new Pricer();
         RegularReceiptFormat regularReceiptFormat = new RegularReceiptFormat();
-        ShoppingCart sc = new ShoppingCart(itemStore, pricer, regularReceiptFormat);
+        MongoReceiptStore mongoReceiptStore = new MongoReceiptStore();
+        ShoppingCart sc = new ShoppingCart(itemStore, pricer, regularReceiptFormat, mongoReceiptStore);
 
         sc.addItem("apple", 2);
         sc.addItem("banana", 1);
@@ -79,7 +82,8 @@ public class ShoppingCartTest {
         ListItemStore itemStore =  new ListItemStore();
         Pricer pricer = new Pricer();
         RegularReceiptFormat regularReceiptFormat = new RegularReceiptFormat();
-        ShoppingCart sc = new ShoppingCart(itemStore, pricer, regularReceiptFormat);
+        MongoReceiptStore mongoReceiptStore = new MongoReceiptStore();
+        ShoppingCart sc = new ShoppingCart(itemStore, pricer, regularReceiptFormat, mongoReceiptStore);
 
         sc.addItem("crisps", 2);
 
@@ -98,7 +102,8 @@ public class ShoppingCartTest {
         ListItemStore itemStore =  new ListItemStore();
         Pricer pricer = new Pricer();
         RegularReceiptFormat regularReceiptFormat = new RegularReceiptFormat();
-        ShoppingCart sc = new ShoppingCart(itemStore, pricer, regularReceiptFormat);
+        MongoReceiptStore mongoReceiptStore = new MongoReceiptStore();
+        ShoppingCart sc = new ShoppingCart(itemStore, pricer, regularReceiptFormat, mongoReceiptStore);
 
         sc.addItem("apple", 2);
         sc.addItem("banana", 2);
@@ -119,7 +124,8 @@ public class ShoppingCartTest {
         Pricer pricer = new Pricer();
         //Key to the test is to create PriceFrontReceiptFormat
         PriceFrontReceiptFormat priceFrontReceiptFormat= new PriceFrontReceiptFormat();
-        ShoppingCart sc = new ShoppingCart(itemStore, pricer, priceFrontReceiptFormat);
+        MongoReceiptStore mongoReceiptStore = new MongoReceiptStore();
+        ShoppingCart sc = new ShoppingCart(itemStore, pricer, priceFrontReceiptFormat, mongoReceiptStore);
 
         sc.addItem("apple", 2);
         sc.addItem("banana", 2);
